@@ -1,0 +1,39 @@
+.product {
+  margin: 2rem 1rem;
+  display: flex;
+  padding: 2rem;
+  font-size: 2rem;
+  max-width: 40vw;
+  border: 0.1rem solid black;
+  background-color: var(--form-color);
+}
+
+.product-image {
+  width: 100%;
+}
+
+.product-name {
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 1rem;
+}
+
+.product-price {
+  color: var(--price);
+  margin: 1rem;
+}
+
+.product-action-edit,
+.product-action-remove {
+  font-size: 2rem;
+}
+
+.product-action-remove {
+  margin-left: 2rem;
+}

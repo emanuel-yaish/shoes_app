@@ -1,0 +1,27 @@
+.product-form {
+  margin-top: 2rem;
+  margin-left: 3rem;
+  width: 40vw;
+  padding: 2rem 4rem;
+  border: 0.1rem solid black;
+  background-color: var(--form-color);
+  box-shadow: 2px 4px 8px black;
+}
+
+.product-form-title {
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-size: 3rem;
+  margin: 2rem 0;
+}
+
+.form-button-action {
+  width: 100%;
+  font-size: 3rem;
+  text-transform: uppercase;
+  background-color: var(--price);
+  box-shadow: 2px 4px 8px black;
+  color: white;
+  padding: 1rem;
+}

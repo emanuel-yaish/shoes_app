@@ -1,11 +1,9 @@
 /* Colors */
 
 :root {
-  --header-color: #0399d8;
-  /* --price: #ff6384;
-  --hover: #eadede;
-  --link: #eadede;
-   */
+  --header-color: #9de2ff3a;
+  --form-color: #9de2ff3a;
+  --price: #ff6384;
 }
 
 /* CSS Reset */

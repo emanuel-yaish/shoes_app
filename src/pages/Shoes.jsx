@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import AddProduct from "../components/AddProduct";
 import SearchProduct from "../components/SearchProduct";
 import Products from "../components/Products";
-import Product from "../components/Product";
+import ProductForm from "../components/ProductForm";
 import "./Shoes.css";
 
 class Shoes extends React.Component {
@@ -28,11 +28,13 @@ class Shoes extends React.Component {
           <AddProduct />
           <SearchProduct />
         </div>
-        <div className="products-containers">
-          <Products products={this.state.products} />
-        </div>
-        <div className="product-container">
-          <Product />
+        <div className="products-display-area">
+          <div className="products-containers">
+            <Products products={this.state.products} />
+          </div>
+          <div className="product-form-container">
+            <ProductForm formType="add" />
+          </div>
         </div>
       </div>
     );
