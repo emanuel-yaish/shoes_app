@@ -2,7 +2,7 @@ import "./Product.css";
 
 function Product(props) {
   if (!props.product) return <div></div>;
-  const { name, avatar, description, price } = props.product;
+  const { name, avatar, description, price, id } = props.product;
   return (
     <div className="product">
       <figure className="product-figure">
@@ -16,7 +16,10 @@ function Product(props) {
           <button className="product-action-edit">
             <i className="fas fa-edit"></i>Edit
           </button>
-          <button className="product-action-remove">
+          <button
+            onClick={() => props.deleteShoes(`/shoes/${id}`, id)}
+            className="product-action-remove"
+          >
             <i className="fas fa-trash"></i>Delete
           </button>
         </div>

@@ -14,10 +14,28 @@ class Shoes extends React.Component {
     this.getShoes("/shoes");
   };
 
-  getShoes = async (term) => {
+  getShoes = async (term, id) => {
     const response = await ShoesApi.get(term);
     console.log(response.data);
     this.setState({ products: response.data });
+  };
+
+  deleteShoes = async (term, id) => {
+    try {
+      const response = await ShoesApi.delete(term);
+
+      console.log(response);
+
+      const productsAfterDelete = this.state.products.filter(
+        (product) => product.id !== id
+      );
+
+      this.setState((state) => ({
+        products: productsAfterDelete,
+      }));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {
@@ -30,7 +48,10 @@ class Shoes extends React.Component {
         </div>
         <div className="products-display-area">
           <div className="products-containers">
-            <Products products={this.state.products} />
+            <Products
+              products={this.state.products}
+              deleteShoes={(term, id) => this.deleteShoes(term, id)}
+            />
           </div>
           <div className="product-form-container">
             <ProductForm formType="add" />
