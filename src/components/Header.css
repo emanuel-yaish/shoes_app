@@ -1,0 +1,5 @@
+.header {
+  background-color: var(--header-color);
+  height: 5vh;
+  font-size: 3rem;
+}
