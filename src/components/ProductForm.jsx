@@ -53,7 +53,16 @@ class ProductForm extends React.Component {
           />
           <button
             className="form-button-action"
-            onClick={this.props.formAction}
+            onClick={(e) => {
+              e.preventDefault();
+              this.props.formAction(
+                "/shoes",
+                this.state.productImage,
+                this.state.productTitle,
+                this.state.productDescription,
+                this.state.productPrice
+              );
+            }}
           >
             {this.props.formType}
           </button>

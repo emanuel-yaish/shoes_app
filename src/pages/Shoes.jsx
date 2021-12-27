@@ -15,9 +15,13 @@ class Shoes extends React.Component {
   };
 
   getShoes = async (term, id) => {
-    const response = await ShoesApi.get(term);
-    console.log(response.data);
-    this.setState({ products: response.data });
+    try {
+      const response = await ShoesApi.get(term);
+      console.log(response.data);
+      this.setState({ products: response.data });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   deleteShoes = async (term, id) => {
@@ -33,6 +37,28 @@ class Shoes extends React.Component {
       this.setState((state) => ({
         products: productsAfterDelete,
       }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  addShoes = async (
+    term,
+    productImage,
+    productTitle,
+    productDescription,
+    productPrice
+  ) => {
+    try {
+      const response = await ShoesApi.post(term, {
+        avatar: productImage,
+        name: productTitle,
+        description: productDescription,
+        price: productPrice,
+      });
+
+      const newProductsArray = [...this.state.products, response.data];
+      this.setState({ products: newProductsArray });
     } catch (err) {
       console.log(err);
     }
@@ -54,7 +80,7 @@ class Shoes extends React.Component {
             />
           </div>
           <div className="product-form-container">
-            <ProductForm formType="add" />
+            <ProductForm formType="add" formAction={this.addShoes} />
           </div>
         </div>
       </div>
