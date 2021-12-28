@@ -74,6 +74,7 @@ class Shoes extends React.Component {
   deleteShoes = async (term, id) => {
     try {
       const response = await ShoesApi.delete(term);
+      console.log("deleted", response);
 
       const productsAfterDelete = this.state.products.filter(
         (product) => product.id !== id
