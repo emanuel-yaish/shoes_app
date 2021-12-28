@@ -13,7 +13,10 @@ function Product(props) {
         <div className="product-description">{description}</div>
         <div className="product-price">{price}</div>
         <div className="product-action">
-          <button className="product-action-edit">
+          <button
+            onClick={() => props.editClicked(id)}
+            className="product-action-edit"
+          >
             <i className="fas fa-edit"></i>Edit
           </button>
           <button

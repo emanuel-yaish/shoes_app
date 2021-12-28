@@ -1,17 +1,19 @@
 import Product from "./Product";
 
 function Products(props) {
-  console.log(props.products);
   const getProducts = () => {
-    console.log(props.products);
     if (!props.products) {
-      return <div>Loding Products</div>;
+      return <div>Loading Products</div>;
     } else {
-      return props.products.map((product) => (
+      const filteredProducts = props.products.filter((product) =>
+        product.name.toLowerCase().includes(props.keyWord.toLowerCase())
+      );
+      return filteredProducts.map((product) => (
         <Product
           key={product.id}
           product={product}
           deleteShoes={props.deleteShoes}
+          editClicked={props.editClicked}
         />
       ));
     }

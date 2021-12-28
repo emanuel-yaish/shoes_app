@@ -8,16 +8,63 @@ import ProductForm from "../components/ProductForm";
 import "./Shoes.css";
 
 class Shoes extends React.Component {
-  state = { products: null };
+  state = {
+    products: null,
+    formType: "none",
+    formData: null,
+    keyWord: "",
+  };
 
   componentDidMount = () => {
     this.getShoes("/shoes");
   };
 
+  editClicked = (id) => {
+    this.hideForm();
+
+    const selectedEditItem = this.state.products.find(
+      (product) => product.id === id
+    );
+
+    this.setState({
+      formType: "edit",
+      formData: {
+        productImage: selectedEditItem.avatar,
+        productTitle: selectedEditItem.name,
+        productDescription: selectedEditItem.description,
+        productPrice: selectedEditItem.price,
+        productId: selectedEditItem.id,
+      },
+    });
+  };
+
+  hideForm = () => {
+    this.setState({
+      formType: "none",
+    });
+  };
+
+  updateKeyWord = (keyWord) => {
+    this.setState({ keyWord: keyWord });
+  };
+
+  addItem = () => {
+    this.hideForm();
+    this.setState({
+      formType: "add",
+      formData: {
+        productImage: "",
+        productTitle: "",
+        productDescription: "",
+        productPrice: "",
+        productId: "",
+      },
+    });
+  };
+
   getShoes = async (term, id) => {
     try {
       const response = await ShoesApi.get(term);
-      console.log(response.data);
       this.setState({ products: response.data });
     } catch (err) {
       console.log(err);
@@ -27,8 +74,6 @@ class Shoes extends React.Component {
   deleteShoes = async (term, id) => {
     try {
       const response = await ShoesApi.delete(term);
-
-      console.log(response);
 
       const productsAfterDelete = this.state.products.filter(
         (product) => product.id !== id
@@ -49,6 +94,14 @@ class Shoes extends React.Component {
     productDescription,
     productPrice
   ) => {
+    if (
+      productImage === "" ||
+      productTitle === "" ||
+      productDescription === "" ||
+      productPrice === ""
+    ) {
+      return;
+    }
     try {
       const response = await ShoesApi.post(term, {
         avatar: productImage,
@@ -58,10 +111,60 @@ class Shoes extends React.Component {
       });
 
       const newProductsArray = [...this.state.products, response.data];
-      this.setState({ products: newProductsArray });
+      this.setState({ products: newProductsArray, formType: "none" });
     } catch (err) {
       console.log(err);
     }
+  };
+
+  editShoes = async (
+    term,
+    productImage,
+    productTitle,
+    productDescription,
+    productPrice
+  ) => {
+    if (
+      productImage === "" ||
+      productTitle === "" ||
+      productDescription === "" ||
+      productPrice === ""
+    ) {
+      return;
+    }
+    try {
+      const response = await ShoesApi.put(term, {
+        avatar: productImage,
+        name: productTitle,
+        description: productDescription,
+        price: productPrice,
+      });
+
+      const index = this.state.products.findIndex((product) => {
+        return product.id === response.data.id;
+      });
+
+      const updatedProductsArray = [...this.state.products];
+      updatedProductsArray[index] = response.data;
+
+      this.setState({ products: updatedProductsArray, formType: "none" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getForm = () => {
+    if (this.state.formType === "none") return;
+    return (
+      <ProductForm
+        key={this.state.formData.productId}
+        formType={this.state.formType}
+        formData={this.state.formData}
+        formAction={
+          this.state.formType === "add" ? this.addShoes : this.editShoes
+        }
+      />
+    );
   };
 
   render() {
@@ -69,19 +172,19 @@ class Shoes extends React.Component {
       <div className="shoes">
         <Header />
         <div className="action-bar">
-          <AddProduct />
-          <SearchProduct />
+          <AddProduct action={this.addItem} />
+          <SearchProduct action={this.updateKeyWord} />
         </div>
         <div className="products-display-area">
           <div className="products-containers">
             <Products
               products={this.state.products}
               deleteShoes={(term, id) => this.deleteShoes(term, id)}
+              editClicked={this.editClicked}
+              keyWord={this.state.keyWord}
             />
           </div>
-          <div className="product-form-container">
-            <ProductForm formType="add" formAction={this.addShoes} />
-          </div>
+          <div className="product-form-container">{this.getForm()}</div>
         </div>
       </div>
     );

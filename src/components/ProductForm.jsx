@@ -4,10 +4,11 @@ import "./ProductForm.css";
 
 class ProductForm extends React.Component {
   state = {
-    productImage: "",
-    productTitle: "",
-    productDescription: "",
-    productPrice: "",
+    productImage: this.props.formData.productImage,
+    productTitle: this.props.formData.productTitle,
+    productDescription: this.props.formData.productDescription,
+    productPrice: this.props.formData.productPrice,
+    productId: this.props.formData.productId,
   };
 
   handleInputChange = (e) => {
@@ -50,13 +51,19 @@ class ProductForm extends React.Component {
             type="number"
             value={this.state.productPrice}
             onInputChangeCallBack={this.handleInputChange}
+            key={this.props.formData.productId}
           />
           <button
             className="form-button-action"
             onClick={(e) => {
               e.preventDefault();
+              const term =
+                this.props.formType === "add"
+                  ? "/shoes"
+                  : `/shoes/${this.state.productId}`;
+
               this.props.formAction(
-                "/shoes",
+                term,
                 this.state.productImage,
                 this.state.productTitle,
                 this.state.productDescription,
